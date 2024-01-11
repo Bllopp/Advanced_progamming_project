@@ -4,10 +4,10 @@
 
 One database per micro-service + 1 for users
 
-## Databse for User
+## Database for User
 2 tables for users infos and roles
 #### User
----
+
 | ID | name | mail | password |
 |---|------|----|---|
 | 1 | Jhon Doe | jhondoe@efrei.net| password |
@@ -15,7 +15,7 @@ One database per micro-service + 1 for users
 
 
 #### Role
----
+
 | ID | role |
 | --| -- |
 | 1 | student |
