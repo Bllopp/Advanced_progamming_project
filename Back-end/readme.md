@@ -17,7 +17,7 @@ The Back-End application is splitted in 2 parts :
   - method: `GET`
   - data: dates, studentID ?, infos ?, defenseID
 - Teacher / tutor send their availabilities
-  - url: `/send_available/denfenseID`
+  - url: `/send_available/defenseID`
   - method: `POST`
   - data: dates
 
