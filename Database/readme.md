@@ -1,5 +1,3 @@
-2SQL ou NoSQL
-
 # Database Architecture
 
 One database per micro-service + 1 for users
