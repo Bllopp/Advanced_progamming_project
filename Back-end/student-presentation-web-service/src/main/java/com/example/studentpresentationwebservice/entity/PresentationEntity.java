@@ -5,13 +5,33 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-//@Table(name = "presentation")
+@Table(name = "presentation")
 public class PresentationEntity {
     @Id
+    @Column(name = "presId")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private long presId;
+    private int presId;
 
-    public long getPresId() {
+
+
+    @Column(name = "studentId")
+    private int studentId;
+
+    @Basic
+    @Column(length=30, nullable=false, name = "mode")
+    private String mode;
+
+    @Column(name = "teacherId")
+    private int teacherId;
+
+    @Column(name = "tutorId")
+    private int tutorId;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "finalDate")
+    private Date finalDate;
+
+    public int getPresId() {
         return presId;
     }
 
@@ -59,17 +79,15 @@ public class PresentationEntity {
         this.finalDate = finalDate;
     }
 
-    private Integer studentId;
-
-    @Basic
-    @Column(length=30, nullable=false)
-    private String mode;
-
-    private Integer teacherId;
-
-    private Integer tutorId;
-
-    @Temporal(TemporalType.DATE)
-    private Date finalDate;
-
+    @Override
+    public String toString() {
+        return "PresentationEntity{" +
+                "presId=" + presId +
+                ", studentId=" + studentId +
+                ", mode='" + mode + '\'' +
+                ", teacherId=" + teacherId +
+                ", tutorId=" + tutorId +
+                ", finalDate=" + finalDate +
+                '}';
+    }
 }

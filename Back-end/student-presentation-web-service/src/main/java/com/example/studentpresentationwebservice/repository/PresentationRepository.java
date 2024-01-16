@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface PresentationRepository extends CrudRepository<PresentationEntity, Long> {
+public interface PresentationRepository extends JpaRepository<PresentationEntity, Integer> {
 
 }
 

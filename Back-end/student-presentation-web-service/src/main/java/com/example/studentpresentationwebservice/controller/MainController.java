@@ -20,6 +20,7 @@ public class MainController {
         p.setMode(mode);
         p.setTeacherId(teacherId);
         p.setTutorId(tutorId);
+        System.out.println(p);
         presentationService.save(p);
 //        presentationRepository.save(p);
         return "Saved";
