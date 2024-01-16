@@ -6,6 +6,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public  class ReportService {
     @Autowired
@@ -21,5 +23,7 @@ public  class ReportService {
         reportRepository.save(p);
     }
 
+    @Transactional
+    public Optional<ReportEntity> getReportById(Integer studentId) { return reportRepository.findById(studentId); }
 
 }
