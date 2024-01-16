@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `role` (`userId` int not null, `role` varchar(50) not
 CREATE DATABASE IF NOT EXISTS `presentation_APP`;
 USE `presentation_APP`;
 
-create table if not exists `presentation` (`presId` int not null auto_increment, `studentId` int not null, `mode` varchar(30) not null , `teacherId` int not null , `tutorId` int not null , `finalDate` date, primary key (`presId`), constraint `FK_teacherId` foreign key (`teacherId`) references `user_APP`.`user`(`userId`), constraint `FK_tutorId` foreign key (`tutorId`) references `user_APP`.`user`(`userId`))ENGINE=INNODB;
+create table if not exists `presentation` (`presId` int not null auto_increment, `studentId` int not null, constraint `FK_studentId` foreign key (`studentId`) references `user_APP`.`user`(`userId`), `mode` varchar(30) not null , `teacherId` int not null , `tutorId` int not null , `finalDate` date, primary key (`presId`), constraint `FK_teacherId` foreign key (`teacherId`) references `user_APP`.`user`(`userId`), constraint `FK_tutorId` foreign key (`tutorId`) references `user_APP`.`user`(`userId`))ENGINE=INNODB;
 
 create table if not exists `presentationDates` (`presId` int not null , `date` date not null, `teacherVote` int, `tutorVote` int, primary key(`presId`,`date`), constraint `FK_presId` foreign key (`presId`) references `presentation`(`presId`))ENGINE=INNODB; 
 
