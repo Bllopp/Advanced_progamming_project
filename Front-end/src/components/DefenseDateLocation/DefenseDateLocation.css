@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-evenly;
     padding: 20px;
-    border-bottom: 1px solid black;
+    border-bottom: 3px solid #468CCC;
 }
 
 .inner-container {

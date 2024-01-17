@@ -5,7 +5,7 @@ import DefenseDateLocation from "../components/DefenseDateLocation/DefenseDateLo
 const GenerateADateForm = () => {
     return (
         <div style={{
-            "margin": "10px"
+            "margin": "30px"
         }}>
             <p style={{
                 "padding": "10px",
