@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import DefenseDateLocation from "../components/DefenseDateLocation/DefenseDateLocation";
+import DefenseDateLocation from "../components/DefenseDateLocation";
 
 const GenerateADateForm = () => {
     return (

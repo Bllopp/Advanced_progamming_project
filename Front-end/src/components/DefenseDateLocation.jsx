@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import './DefenseDateLocation.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
