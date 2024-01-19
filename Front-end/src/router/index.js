@@ -1,18 +1,21 @@
-import App from "@/App";
 import { createBrowserRouter as Router } from "react-router-dom";
-import { Home, About, GenerateADateForm } from "@pages"
+import { Home, About, GenerateADateForm, ErrorPage } from "@pages"
+import { ABOUT_US, GENERATE_A_DATE } from "./routes";
 
 export const router = Router([
     {
       path: "/",
       element: <Home />,
+      errorElement: <ErrorPage error={'404'} />,
+      children: [
+        {
+          path: ABOUT_US,
+          element: <About />,
+        },
+        {
+          path: GENERATE_A_DATE,
+          element: <GenerateADateForm />,
+        }
+      ]
     },
-    {
-      path: "/about-us",
-      element: <About />,
-    },
-    {
-      path: "/generate-a-date",
-      element: <GenerateADateForm />,
-    }
   ]);
