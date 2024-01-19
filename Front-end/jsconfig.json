@@ -1,0 +1,9 @@
+{
+  "compileOnSave": false,
+  "module": "commonjs",
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": ["./src/**/*.js", "./src/**/*.jsx"],
+  "exclude": ["node_modules"]
+}
