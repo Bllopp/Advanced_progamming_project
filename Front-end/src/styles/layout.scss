@@ -1,0 +1,19 @@
+:root {
+    --topbar-height: 4rem;
+    --padding-button: 0.75rem;
+}
+
+.translate-page {
+    transform: translateY(var(--topbar-height));
+}
+
+@media not all and (min-width: 640px){
+.max-sm\:translate-page{
+    transform: translateY(calc(var(--topbar-height) * 2 + var(--padding-button) * 6));
+}
+
+.py-button{
+    padding-top: var(--padding-button);
+    padding-bottom: var(--padding-button);
+    }
+}

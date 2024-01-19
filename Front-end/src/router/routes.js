@@ -1,2 +1,2 @@
-export const ABOUT_US = "/about-us"
-export const GENERATE_A_DATE = "/generate_a_date"
+export const ABOUT_ROUTE = "/about-us";
+export const GENERATE_A_DATE_ROUTE = "/generate-a-date-form";
