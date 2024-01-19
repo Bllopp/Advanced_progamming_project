@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import DefenseDateLocation from "../components/DefenseDateLocation";
+import { DefenseDateLocation } from '@components';
 
-const GenerateADateForm = () => {
+export const GenerateADateForm = () => {
     return (
         <div style={{
             "margin": "10px"
@@ -43,4 +43,3 @@ const GenerateADateForm = () => {
     );
 };
 
-export default GenerateADateForm;

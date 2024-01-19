@@ -2,7 +2,7 @@
 import React from "react";
 import logo from "@/assets/logo-efrei.svg";
 
-const NavBar = () => {
+export const NavBar = () => {
   return (
     <div className="flex w-full mx-auto justify-center">
       <div className="px-2 border-2 flex max-w-full">
@@ -16,5 +16,3 @@ const NavBar = () => {
     </div>
   );
 };
-
-export default NavBar;

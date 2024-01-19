@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const DefenseDateLocation = ({dateId, locationId}) => {
+export const DefenseDateLocation = ({dateId, locationId}) => {
     const [startDate, setStartDate] = useState(new Date());
     return (
         <div className="main-container">
@@ -52,4 +52,3 @@ const DefenseDateLocation = ({dateId, locationId}) => {
     );
 };
 
-export default DefenseDateLocation;
