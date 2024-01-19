@@ -7,7 +7,7 @@ export const Root = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="h-full">
+    <div className="h-full scrollbar-none">
       <TopBar
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={(state) => setIsMenuOpen(state)}
