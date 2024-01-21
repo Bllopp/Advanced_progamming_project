@@ -2,7 +2,7 @@
 import logo from "@/assets/logo-efrei.svg";
 import burgerMenu from "@/assets/burger-menu.svg";
 import close from "@/assets/close-circle.svg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { PATHS } from "../router/paths";
 import { useState } from "react";
@@ -21,10 +21,12 @@ export const TopBar = ({ isMenuOpen, setIsMenuOpen }) => {
   };
   
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [elements, setElements] = useState(
     rootElement.children.map((element) => ({
       ...element,
-      isActive: element.path === "/",
+      isActive: element.path === location.pathname,
     }))
   );
 
