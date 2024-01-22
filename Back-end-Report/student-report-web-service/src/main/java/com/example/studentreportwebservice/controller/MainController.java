@@ -22,8 +22,8 @@ public class MainController {
     @Autowired
     private ReportService reportService;
 
-    @PostMapping(path="/send")
-    public @ResponseBody String addNewReport (@RequestParam Integer studentId, @RequestParam MultipartFile file, @RequestParam Integer teacherId, @RequestParam Integer tutorId){
+    @PostMapping(path="/submit")
+    public @ResponseBody String submitReport (@RequestParam Integer studentId, @RequestParam MultipartFile file, @RequestParam Integer teacherId, @RequestParam Integer tutorId){
 
         try {
             if (file.isEmpty()) {
@@ -39,19 +39,19 @@ public class MainController {
         System.out.println(report);
         reportService.save(report);
 //        reportRepository.save(p);
-        return "Report sent!";
+        return "Report submitted successfully!";
     } catch (IOException e) {
             return "Error while processing the file: " + e.getMessage();
         }
     }
 
-    @GetMapping("/get/{studentId}")
-    public ResponseEntity<byte[]> getReport(@PathVariable Integer studentId) {
+    @GetMapping("/download/{studentId}")
+    public ResponseEntity<byte[]> downloadReport(@PathVariable Integer studentId) {
         Optional<ReportEntity> optionalReport = reportService.getReportById(studentId);
 
         if (optionalReport.isPresent()) {
             ReportEntity report = optionalReport.get();
-            org.springframework.http.HttpHeaders headers = new HttpHeaders();
+            HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
             headers.setContentDispositionFormData("attachment", "report.pdf");
             return new ResponseEntity<>(report.getFile(), headers, HttpStatus.OK);
@@ -60,6 +60,71 @@ public class MainController {
         }
     }
 
+    @PostMapping(path = "/validate")
+    public @ResponseBody String validateReport(
+            @RequestParam Integer studentId
+    ) {
+        try {
+            Optional<ReportEntity> optionalReport = reportService.getReportById(studentId);
+
+            if (optionalReport.isPresent()) {
+                ReportEntity report = optionalReport.get();
+                Integer teacherVote = report.getTeacherVote();
+                Integer tutorVote = report.getTutorVote();
+                report.getTutorVote();
+
+                if (teacherVote == 1 && tutorVote == 1) {
+                    // Implement the logic
+                    return "Report validated!";
+                } else {
+                    // Implement the logic
+                    return "Report not validated.";
+                }
+            } else {
+                return "Report not found for studentId: " + studentId;
+            }
+        } catch (Exception e) {
+            return "Error updating report status: " + e.getMessage();
+        }
+    }
+
+    @PostMapping("/vote/teacher/{studentId}")
+    public @ResponseBody String submitTeacherVote(@PathVariable Integer studentId, @RequestParam Integer teacherVote){
+        try {
+            Optional<ReportEntity> optionalReport = reportService.getReportById(studentId);
+
+            if (optionalReport.isPresent()) {
+                ReportEntity report = optionalReport.get();
+                report.setTeacherVote(teacherVote);
+                reportService.save(report);
+
+                return "Teacher vote successfully submitted!";
+            } else {
+                return "Report not found for studentId: " + studentId;
+            }
+        } catch (Exception e) {
+            return "Error submitting teacher vote: " + e.getMessage();
+        }
+    }
+
+    @PostMapping("/vote/tutor/{studentId}")
+    public @ResponseBody String submitTutorVote(@PathVariable Integer studentId, @RequestParam Integer tutorVote) {
+        try{
+            Optional<ReportEntity> optionalReport = reportService.getReportById(studentId);
+
+            if (optionalReport.isPresent()) {
+                ReportEntity report = optionalReport.get();
+                report.setTutorVote(tutorVote);
+                reportService.save(report);
+
+                return "Tutor vote successfully submitted!";
+            } else {
+                return "Report not found for studentId: " + studentId;
+            }
+        } catch (Exception e) {
+            return "Error submitting tutor vote: " + e.getMessage();
+        }
+    }
     /*
     @PostMapping(path="/add")
     public @ResponseBody String addNewReport (@RequestParam Integer studentId, @RequestParam byte[] file, @RequestParam Integer teacherId, @RequestParam Integer teacherVote, @RequestParam Integer tutorId, @RequestParam Integer tutorVote){
@@ -77,7 +142,7 @@ public class MainController {
     }*/
 
     @GetMapping("/all")
-    public @ResponseBody Iterable<ReportEntity> getAllUsers() {
+    public @ResponseBody Iterable<ReportEntity> getAllReports() {
         return reportService.getAll();
 //        return reportRepository.findAll();
     }
