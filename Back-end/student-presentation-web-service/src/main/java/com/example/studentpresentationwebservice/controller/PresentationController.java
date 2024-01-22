@@ -5,13 +5,12 @@ import com.example.studentpresentationwebservice.service.PresentationDateService
 import com.example.studentpresentationwebservice.service.PresentationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
-@RequestMapping("/init_presentation")
+@RequestMapping("/presentation")
 public class PresentationController {
 
     @Autowired
@@ -20,7 +19,7 @@ public class PresentationController {
     @Autowired
     private PresentationDateService presentationDateService;
 
-    @PostMapping(path = "/")
+    @PostMapping(path = "/add")
     public @ResponseBody String init_presentation(@RequestParam Integer studentId, @RequestParam String mode, @RequestParam Integer teacherId, @RequestParam Integer tutorId, @RequestParam String date1, @RequestParam String date2, @RequestParam String date3) {
         try {
             PresentationEntity pE = presentationService.createPresentation(studentId, mode, teacherId, tutorId);
@@ -36,6 +35,14 @@ public class PresentationController {
             throw new RuntimeException(e);
         }
         return "Presentation initialized";
-
     }
+
+    @GetMapping("/{userId}")
+    public @ResponseBody List<PresentationEntity> getPresByUserId(@PathVariable("userId") Integer userId){
+        List<PresentationEntity> filteredPres = presentationService.getById(userId);
+
+
+        return filteredPres;
+    }
+
 }
