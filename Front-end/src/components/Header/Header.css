@@ -29,6 +29,23 @@
     background-color: #eae9e9;
     border-bottom: 1px solid black;
     width: 100%;
+    display: flex;
+    justify-content: center;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #333;
+}
+
+.menu div {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.menu div:hover {
+    background-color: #ddd;
 }
