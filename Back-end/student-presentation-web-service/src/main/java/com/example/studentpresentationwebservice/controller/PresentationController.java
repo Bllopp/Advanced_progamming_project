@@ -45,4 +45,9 @@ public class PresentationController {
         return filteredPres;
     }
 
+    @GetMapping("/vote/{presId}")
+    public @ResponseBody List<PresentationDatesEntity> getPresVote(@PathVariable("presId") Integer presId){
+        return presentationDateService.getById(presId);
+    }
+
 }
