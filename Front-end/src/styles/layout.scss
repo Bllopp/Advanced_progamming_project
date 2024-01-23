@@ -1,7 +1,10 @@
 :root {
     --topbar-height: 4rem;
     --padding-button: 0.75rem;
+    --logo-size: 3rem;
+    --content-height: calc(100vh - var(--topbar-height));
 }
+
 
 .translate-page {
     transform: translateY(var(--topbar-height));

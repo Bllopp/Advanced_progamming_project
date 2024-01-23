@@ -36,7 +36,7 @@ export const TopBar = ({ isMenuOpen, setIsMenuOpen }) => {
       <div className="absolute max-sm:border-b-2 max-sm:border-black inset-0 px-4 md:px-16 flex max-sm:flex-col items-center max-w-full">
         <div className="flex justify-between max-sm:py-2 lg:w-full sm:w-2/5 w-full">
           <a href="#">
-            <img src={logo} className="h-12" alt="logo" />
+            <img src={logo} className="h-[var(--logo-size)]" alt="logo" />
           </a>
           <button
             id="burger-menu"
@@ -57,7 +57,7 @@ export const TopBar = ({ isMenuOpen, setIsMenuOpen }) => {
           )}
         >
           {elements.map((element, i) => (
-            <li className="h-full max-sm:w-full">
+            <li key={i} className="h-full max-sm:w-full">
               <CustomButton
                 onClick={() => navigateTo(element)}
                 key={i}
