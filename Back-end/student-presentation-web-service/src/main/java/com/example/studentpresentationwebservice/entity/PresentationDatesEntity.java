@@ -7,16 +7,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "presentationdates")
-@IdClass(PresentationDatesEntity.class)
 public class PresentationDatesEntity implements Serializable {
-    @Id
-    @Column(name = "presId")
-    private Integer presId;
-
-    @Id
-    @Temporal(TemporalType.DATE)
-    @Column(name = "date")
-    private Date date;
+    @EmbeddedId
+    private PresentationDatesId dateId;
 
     @Column(name = "teacherVote")
     private Integer teacherVote;
@@ -24,20 +17,12 @@ public class PresentationDatesEntity implements Serializable {
     @Column(name = "tutorVote")
     private Integer tutorVote;
 
-    public Integer getPresId() {
-        return presId;
+    public PresentationDatesId getDateId() {
+        return dateId;
     }
 
-    public void setPresId(Integer presId) {
-        this.presId = presId;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateId(PresentationDatesId dateId) {
+        this.dateId = dateId;
     }
 
     public Integer getTeacherVote() {
