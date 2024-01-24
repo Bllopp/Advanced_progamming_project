@@ -7,7 +7,7 @@ export const Root = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="">
+    <div className="overflow-auto h-screen">
       <TopBar
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={(state) => setIsMenuOpen(state)}

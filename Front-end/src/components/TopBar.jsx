@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import logo from "@/assets/logo-efrei.svg";
-import burgerMenu from "@/assets/burger-menu.svg";
-import close from "@/assets/close-circle.svg";
+import { ReactComponent as Logo } from "@/assets/logo-efrei.svg";
+import { ReactComponent as BurgerMenuIcon } from "@/assets/burger-menu.svg";
+import { ReactComponent as CloseIcon } from "@/assets/close-circle.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { PATHS } from "../router/paths";
@@ -19,7 +19,7 @@ export const TopBar = ({ isMenuOpen, setIsMenuOpen }) => {
     );
     navigate(element.path);
   };
-  
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -30,24 +30,23 @@ export const TopBar = ({ isMenuOpen, setIsMenuOpen }) => {
     }))
   );
 
-
   return (
     <header className="flex w-full h-[var(--topbar-height)] z-50 bg-[var(--primary)] mx-auto py-1 fixed top-0 w-content justify-center">
       <div className="absolute max-sm:border-b-2 max-sm:border-black inset-0 px-4 md:px-16 flex max-sm:flex-col items-center max-w-full">
         <div className="flex justify-between max-sm:py-2 lg:w-full sm:w-2/5 w-full">
           <a href="#">
-            <img src={logo} className="h-[var(--logo-size)]" alt="logo" />
+            <Logo className="h-[var(--logo-height)] w-[var(--logo-width)]" />
           </a>
           <button
             id="burger-menu"
             className="sm:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <img
-              src={isMenuOpen ? close : burgerMenu}
-              className="h-8 hover:text-white"
-              alt=""
-            />
+            {isMenuOpen ? (
+              <CloseIcon className="h-8 w-8 hover:text-white" />
+            ) : (
+              <BurgerMenuIcon className="h-8 w-8 hover:text-white" />
+            )}
           </button>
         </div>
         <ul
@@ -68,7 +67,7 @@ export const TopBar = ({ isMenuOpen, setIsMenuOpen }) => {
                   "max-sm:border-b-2 md:text-lg max-sm:hover:bg-white max-sm:hover:text-black cursor-pointer max-sm:w-full flex items-center justify-center max-sm:bg-[var(--primary)] sm:h-full py-button sm:px-3"
                 )}
               >
-                  {element.label}
+                {element.label}
               </CustomButton>
             </li>
           ))}

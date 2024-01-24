@@ -1,12 +1,15 @@
 import { NavLink } from "react-router-dom";
 import { PresentationDateLocation } from "@components";
 import { Stepper } from "@components/MultiStepForm/Stepper"
+import { ReportUploadForm } from "@components/MultiStepForm/stepsComponents/ReportUploadForm";
 
 export const GenerateADateForm = () => {
   return (
     <div className="flex max-md:flex-col gap-1 h-[var(--content-height)] w-full">
       <Stepper />
-      <div className="w-full h-full bg-[var(--tertiary)] border-2"></div>
+      <div className="w-full h-full bg-[var(--tertiary)] border-2">
+        <ReportUploadForm />
+      </div>
     </div>
 
     // <div
