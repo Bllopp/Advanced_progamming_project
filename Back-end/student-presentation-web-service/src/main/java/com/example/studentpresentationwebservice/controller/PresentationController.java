@@ -1,5 +1,6 @@
 package com.example.studentpresentationwebservice.controller;
 
+import com.example.studentpresentationwebservice.domain.PresentationBody;
 import com.example.studentpresentationwebservice.domain.Vote;
 import com.example.studentpresentationwebservice.domain.VoteBody;
 import com.example.studentpresentationwebservice.entity.PresentationDatesEntity;
@@ -31,14 +32,16 @@ public class PresentationController {
     private PresentationDatesRepository presentationDatesRepository;
 
     @PostMapping(path = "/add")
-    public @ResponseBody String init_presentation(@RequestParam Integer studentId, @RequestParam String mode, @RequestParam Integer teacherId, @RequestParam Integer tutorId, @RequestParam String date1, @RequestParam String date2, @RequestParam String date3) {
+    public @ResponseBody String init_presentation(@RequestBody PresentationBody presBody) {
         try {
-            PresentationEntity pE = presentationService.createPresentation(studentId, mode, teacherId, tutorId);
+
+
+            PresentationEntity pE = presentationService.createPresentation(presBody);
             Integer presId = pE.getPresId();
 
-            presentationDateService.save(presId, date1, 0, 0);
-            presentationDateService.save(presId, date2, 0, 0);
-            presentationDateService.save(presId, date3, 0, 0);
+            presentationDateService.save(presId, presBody.getDate1(), 0, 0);
+            presentationDateService.save(presId, presBody.getDate2(), 0, 0);
+            presentationDateService.save(presId, presBody.getDate3(), 0, 0);
 
 
 

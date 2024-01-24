@@ -1,5 +1,6 @@
 package com.example.studentpresentationwebservice.service;
 
+import com.example.studentpresentationwebservice.domain.PresentationBody;
 import com.example.studentpresentationwebservice.entity.PresentationEntity;
 import com.example.studentpresentationwebservice.repository.PresentationRepository;
 import jakarta.persistence.Temporal;
@@ -30,17 +31,14 @@ public  class PresentationService {
 
 
     @Transactional
-    public @ResponseBody PresentationEntity createPresentation( Integer studentId,
-                                                     String mode,
-                                                     Integer teacherId,
-                                                     Integer tutorId)
+    public @ResponseBody PresentationEntity createPresentation(PresentationBody presBody)
             throws Exception
     {
         PresentationEntity p = new PresentationEntity();
-        p.setStudentId(studentId);
-        p.setMode(mode);
-        p.setTeacherId(teacherId);
-        p.setTutorId(tutorId);
+        p.setStudentId(presBody.getStudentId());
+        p.setMode(presBody.getMode());
+        p.setTeacherId(presBody.getTeacherId());
+        p.setTutorId(presBody.getTutorId());
         return presentationRepository.save(p);
     }
 }
