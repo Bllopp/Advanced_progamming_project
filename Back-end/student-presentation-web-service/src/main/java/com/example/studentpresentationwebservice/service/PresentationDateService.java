@@ -1,16 +1,13 @@
 package com.example.studentpresentationwebservice.service;
 
-import com.example.studentpresentationwebservice.domain.PresentationBody;
 import com.example.studentpresentationwebservice.domain.Vote;
 import com.example.studentpresentationwebservice.domain.VoteBody;
 import com.example.studentpresentationwebservice.entity.PresentationDatesEntity;
 import com.example.studentpresentationwebservice.entity.PresentationDatesId;
-import com.example.studentpresentationwebservice.entity.PresentationEntity;
 import com.example.studentpresentationwebservice.repository.PresentationDatesRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.ParseException;

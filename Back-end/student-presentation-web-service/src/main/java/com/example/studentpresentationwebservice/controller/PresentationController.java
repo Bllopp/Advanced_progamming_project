@@ -72,7 +72,7 @@ public class PresentationController {
 
     @Transactional
     @PostMapping("/vote/{presId}/add")
-    public @ResponseBody String newVote(@ResponseBody VoteBody body, @PathVariable Integer presId){
+    public @ResponseBody String newVote(@RequestBody VoteBody body, @PathVariable Integer presId){
        return presentationDateService.create3Vote(body,presId);
     }
 
