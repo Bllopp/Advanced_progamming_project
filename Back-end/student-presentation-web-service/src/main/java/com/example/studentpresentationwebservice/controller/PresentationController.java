@@ -69,41 +69,17 @@ public class PresentationController {
         return presentationDateService.getByIdDates(presId, date);
     }
 
+
+    @Transactional
+    @PostMapping("/vote/{presId}/add")
+    public @ResponseBody String newVote(@ResponseBody VoteBody body, @PathVariable Integer presId){
+       return presentationDateService.create3Vote(body,presId);
+    }
+
     @Transactional
     @PostMapping("/vote/{presId}")
-    public @ResponseBody String vote(@RequestBody VoteBody body, @PathVariable Integer presId){
-
-        for (int i = 0; i < body.getVotes().size(); i++) {
-            try {
-                Vote vote = body.getVotes().get(i);
-                PresentationDatesEntity presentationDatesEntity = presentationDateService.getByIdDates(presId, vote.getDate()).orElse(null);
-                if(presentationDatesEntity != null){
-                    if(body.getRole().equals("teacher")) {
-                        presentationDatesEntity.setTeacherVote(vote.getVote());
-
-                    }
-                    else{
-                        presentationDatesEntity.setTutorVote(vote.getVote());
-
-                    }
-                    presentationDatesRepository.save(presentationDatesEntity);
-
-                }
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-
-
-//            presentationDatesRepository.saveAll(datesArray);
-
-
-
-
-        }
-
-
-        return "ok";
+    public @ResponseBody String modifyVote(@RequestBody VoteBody body, @PathVariable Integer presId){
+        return presentationDateService.update3Votes(body,presId);
     }
 
 

@@ -1,5 +1,8 @@
 package com.example.studentpresentationwebservice.service;
 
+import com.example.studentpresentationwebservice.domain.PresentationBody;
+import com.example.studentpresentationwebservice.domain.Vote;
+import com.example.studentpresentationwebservice.domain.VoteBody;
 import com.example.studentpresentationwebservice.entity.PresentationDatesEntity;
 import com.example.studentpresentationwebservice.entity.PresentationDatesId;
 import com.example.studentpresentationwebservice.entity.PresentationEntity;
@@ -60,6 +63,49 @@ public class PresentationDateService {
         }
 
 
+    }
+
+
+    @Transactional
+    public @ResponseBody String create3Vote(VoteBody body, Integer presId){
+        for (int i = 0; i < body.getVotes().size(); i++) {
+            save(presId, body.getVotes().get(i).getDate(), 0, 0);
+        }
+
+        return "3 new dates have been proposed";
+    }
+
+    @Transactional
+    public @ResponseBody String update3Votes(VoteBody body, Integer presId){
+        for (int i = 0; i < body.getVotes().size(); i++) {
+            try {
+                Vote vote = body.getVotes().get(i);
+                PresentationDatesEntity presentationDatesEntity = getByIdDates(presId, vote.getDate()).orElse(null);
+                if(presentationDatesEntity != null){
+                    if(body.getRole().equals("teacher")) {
+                        presentationDatesEntity.setTeacherVote(vote.getVote());
+
+                    }
+                    else{
+                        presentationDatesEntity.setTutorVote(vote.getVote());
+
+                    }
+                    presentationDatesRepository.save(presentationDatesEntity);
+
+                }
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+
+
+//            presentationDatesRepository.saveAll(datesArray);
+
+
+
+
+        }
+        return "the 3 vote have been saved";
     }
 
 
