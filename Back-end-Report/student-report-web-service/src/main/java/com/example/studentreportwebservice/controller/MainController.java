@@ -1,5 +1,6 @@
 package com.example.studentreportwebservice.controller;
 
+import com.example.studentreportwebservice.domain.SubmitBody;
 import com.example.studentreportwebservice.entity.ReportEntity;
 import com.example.studentreportwebservice.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,108 +24,50 @@ public class MainController {
     private ReportService reportService;
 
     @PostMapping(path="/submit")
-    public @ResponseBody String submitReport (@RequestParam Integer studentId, @RequestParam MultipartFile file, @RequestParam Integer teacherId, @RequestParam Integer tutorId){
+    public @ResponseBody String submitReport (@RequestBody SubmitBody body){
 
-        try {
-            if (file.isEmpty()) {
-                return "The file you submitted is empty. Please submit a valid file.";
-            }
+       return reportService.submit(body);
 
-        ReportEntity report = new ReportEntity();
-        report.setStudentId(studentId);
-        report.setFile(file.getBytes());
-        report.setTeacherId(teacherId);
-        report.setTutorId(tutorId);
-        report.setUploadDate(new Date());
-        System.out.println(report);
-        reportService.save(report);
-//        reportRepository.save(p);
-        return "Report submitted successfully!";
-    } catch (IOException e) {
-            return "Error while processing the file: " + e.getMessage();
-        }
     }
 
     @GetMapping("/download/{studentId}")
     public ResponseEntity<byte[]> downloadReport(@PathVariable Integer studentId) {
-        Optional<ReportEntity> optionalReport = reportService.getReportById(studentId);
 
-        if (optionalReport.isPresent()) {
-            ReportEntity report = optionalReport.get();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("attachment", "report.pdf");
-            return new ResponseEntity<>(report.getFile(), headers, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return reportService.download(studentId);
     }
 
-    @PostMapping(path = "/validate")
+    @PostMapping(path = "/validate/studentId")
     public @ResponseBody String validateReport(
-            @RequestParam Integer studentId
+            @PathVariable Integer studentId
     ) {
-        try {
-            Optional<ReportEntity> optionalReport = reportService.getReportById(studentId);
+        return reportService.validate(studentId);
 
-            if (optionalReport.isPresent()) {
-                ReportEntity report = optionalReport.get();
-                Integer teacherVote = report.getTeacherVote();
-                Integer tutorVote = report.getTutorVote();
-                report.getTutorVote();
 
-                if (teacherVote == 1 && tutorVote == 1) {
-                    // Implement the logic
-                    return "Report validated!";
-                } else {
-                    // Implement the logic
-                    return "Report not validated.";
-                }
-            } else {
-                return "Report not found for studentId: " + studentId;
-            }
-        } catch (Exception e) {
-            return "Error updating report status: " + e.getMessage();
-        }
     }
 
-    @PostMapping("/vote/teacher/{studentId}")
-    public @ResponseBody String submitTeacherVote(@PathVariable Integer studentId, @RequestParam Integer teacherVote){
-        try {
-            Optional<ReportEntity> optionalReport = reportService.getReportById(studentId);
-
-            if (optionalReport.isPresent()) {
-                ReportEntity report = optionalReport.get();
-                report.setTeacherVote(teacherVote);
-                reportService.save(report);
-
-                return "Teacher vote successfully submitted!";
-            } else {
-                return "Report not found for studentId: " + studentId;
-            }
-        } catch (Exception e) {
-            return "Error submitting teacher vote: " + e.getMessage();
-        }
+    @PostMapping("/vote/{role}/{studentId}")
+    public @ResponseBody String submitTeacherVote(@PathVariable("studentId") Integer studentId,@PathVariable("role") String role, @RequestBody Integer vote){
+        return reportService.submitVote(studentId, role, vote);
     }
 
-    @PostMapping("/vote/tutor/{studentId}")
-    public @ResponseBody String submitTutorVote(@PathVariable Integer studentId, @RequestParam Integer tutorVote) {
-        try{
-            Optional<ReportEntity> optionalReport = reportService.getReportById(studentId);
-
-            if (optionalReport.isPresent()) {
-                ReportEntity report = optionalReport.get();
-                report.setTutorVote(tutorVote);
-                reportService.save(report);
-
-                return "Tutor vote successfully submitted!";
-            } else {
-                return "Report not found for studentId: " + studentId;
-            }
-        } catch (Exception e) {
-            return "Error submitting tutor vote: " + e.getMessage();
-        }
-    }
+//    @PostMapping("/vote/tutor/{studentId}")
+//    public @ResponseBody String submitTutorVote(@PathVariable Integer studentId, @RequestParam Integer tutorVote) {
+//        try{
+//            Optional<ReportEntity> optionalReport = reportService.getReportById(studentId);
+//
+//            if (optionalReport.isPresent()) {
+//                ReportEntity report = optionalReport.get();
+//                report.setTutorVote(tutorVote);
+//                reportService.save(report);
+//
+//                return "Tutor vote successfully submitted!";
+//            } else {
+//                return "Report not found for studentId: " + studentId;
+//            }
+//        } catch (Exception e) {
+//            return "Error submitting tutor vote: " + e.getMessage();
+//        }
+//    }
     /*
     @PostMapping(path="/add")
     public @ResponseBody String addNewReport (@RequestParam Integer studentId, @RequestParam byte[] file, @RequestParam Integer teacherId, @RequestParam Integer teacherVote, @RequestParam Integer tutorId, @RequestParam Integer tutorVote){
