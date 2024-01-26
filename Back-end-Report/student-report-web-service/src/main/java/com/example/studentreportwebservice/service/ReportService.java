@@ -36,6 +36,7 @@ public  class ReportService {
             report.setFile(body.getFile().getBytes());
             report.setTeacherId(body.getTeacherId());
             report.setTutorId(body.getTutorId());
+            report.setComment(body.getComment());
             report.setUploadDate(new Date());
             System.out.println(report);
             this.save(report);

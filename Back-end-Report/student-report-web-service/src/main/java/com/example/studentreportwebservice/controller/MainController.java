@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 
+@CrossOrigin(origins = "${frontend.origin}")
 @Controller
 //@RequestMapping(path = "/test")
 @RequestMapping(path = "/reports")
@@ -24,10 +25,21 @@ public class MainController {
     private ReportService reportService;
 
     @PostMapping(path="/submit")
-    public @ResponseBody String submitReport (@RequestBody SubmitBody body){
+    public @ResponseBody String submitReport(
+            @RequestParam("studentId") Integer studentId,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("teacherId") Integer teacherId,
+            @RequestParam("tutorId") Integer tutorId,
+            @RequestParam("comment") String comment
+    ) {
+        SubmitBody body = new SubmitBody();
+        body.setStudentId(studentId);
+        body.setFile(file);
+        body.setTeacherId(teacherId);
+        body.setTutorId(tutorId);
+        body.setComment(comment);
 
-       return reportService.submit(body);
-
+        return reportService.submit(body);
     }
 
     @GetMapping("/download/{studentId}")

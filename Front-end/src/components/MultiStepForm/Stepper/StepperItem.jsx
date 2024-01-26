@@ -3,7 +3,7 @@ import { ReactComponent as Uncompleted } from "@/assets/uncompleted.svg";
 import { ReactComponent as OnGoing } from "@/assets/on-going.svg";
 
 import clsx from "clsx";
-import { statuses } from "@/utils/multiStepForm/stepConsts";
+import { statuses } from "@utils/multiStepForm/stepConsts";
 import React from "react";
 
 export const StepperItem = ({

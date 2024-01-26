@@ -32,6 +32,10 @@ public class ReportEntity {
     @Column(name = "uploadDate", nullable = false)
     private Date uploadDate;
 
+    @Column(name = "comment")
+    private String comment;
+
+
     public Integer getStudentId() {
         return studentId;
     }
@@ -84,6 +88,14 @@ public class ReportEntity {
         this.uploadDate = uploadDate;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     @Override
     public String toString() {
         return "ReportEntity{" +
@@ -94,6 +106,7 @@ public class ReportEntity {
                 ", tutorId=" + tutorId +
                 ", tutorVote=" + tutorVote +
                 ", uploadDate=" + uploadDate +
+                ", comment=" + comment +
                 '}';
     }
 }

@@ -11,11 +11,14 @@ public class SubmitBody {
     @JsonProperty("file")
     private MultipartFile file;
 
-    @JsonProperty("tutorId")
+    @JsonProperty("teacherId")
     private Integer teacherId;
 
     @JsonProperty("tutorId")
     private Integer tutorId;
+
+    @JsonProperty("comment")
+    private String comment;
 
     public Integer getStudentId() {
         return studentId;
@@ -47,5 +50,13 @@ public class SubmitBody {
 
     public void setTutorId(Integer tutorId) {
         this.tutorId = tutorId;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

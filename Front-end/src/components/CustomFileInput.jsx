@@ -1,9 +1,12 @@
 import { ReactComponent as CloseIcon } from "@/assets/close-circle.svg";
 import { ReactComponent as UploadFileIcon } from "@/assets/upload-file.svg";
-import { useRef } from "react";
-import { bytes } from "@/utils/files";
+import { useEffect, useRef } from "react";
+import { bytes } from "@utils/files";
+import clsx from "clsx";
 
-export const CustomFileInput = ({ value, onChange }) => {
+export const CustomFileInput = ({ className, value, onChange }) => {
+  useEffect(() => {}, [value]);
+ 
   const uploaderRef = useRef(null);
   const fileInputRef = useRef(null);
 
@@ -27,7 +30,7 @@ export const CustomFileInput = ({ value, onChange }) => {
       uploaderRef.current.classList.remove("dragover");
   };
   const onDrop = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (uploaderRef.current && !uploaderRef.current.contains(e.relatedTarget)) {
       uploaderRef.current.classList.remove("dragover");
       handleFileDrop(e);
@@ -40,7 +43,7 @@ export const CustomFileInput = ({ value, onChange }) => {
         ref={fileInputRef}
         type="file"
         className="hidden"
-        onChange={e => onChange(e.target.files[0])}
+        onChange={(e) => onChange(e.target.files[0])}
       />
       {value ? (
         <div className="flex justify-between w-full">
@@ -61,7 +64,10 @@ export const CustomFileInput = ({ value, onChange }) => {
         </div>
       ) : (
         <div
-          className="flex flex-col justify-center items-center gap-4 w-full flex-1"
+          className={clsx(
+            className,
+            "flex flex-col justify-center items-center gap-4 w-full flex-1"
+          )}
           ref={uploaderRef}
           onDragEnter={onDragEnter}
           onDragLeave={onDragLeave}
@@ -69,9 +75,10 @@ export const CustomFileInput = ({ value, onChange }) => {
           onDrop={onDrop}
         >
           <UploadFileIcon
+            onClick={() => fileInputRef.current?.click()}
             fill="var(--secondary)"
             draggable="false"
-            className="text-0 h-[150px] md:h-[300px]"
+            className="cursor-pointer text-0 h-[150px] md:h-[300px]"
           />
           <div draggable="false" className="text-2 text-lg font-medium">
             Drag and drop{" "}

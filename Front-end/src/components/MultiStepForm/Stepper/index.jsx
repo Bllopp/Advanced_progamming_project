@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { FORM_STEPS, statuses } from "@/utils/multiStepForm/stepConsts";
+import { FORM_STEPS, statuses } from "@utils/multiStepForm/stepConsts";
 import { StepperItem } from "./StepperItem";
 
 export const Stepper = () => {
