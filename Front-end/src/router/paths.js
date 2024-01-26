@@ -1,6 +1,7 @@
 import { Home, About, GenerateADateForm, ErrorPage } from "@pages";
-import { HOME, ABOUT_US, GENERATE_A_DATE } from "./routes";
+import { HOME, ABOUT_US, GENERATE_A_DATE, LOGIN } from "./routes";
 import { Root } from "@pages";
+import { Login } from "@pages/Login";
 
 export const PATHS = [
   {
@@ -19,6 +20,10 @@ export const PATHS = [
       {
         ...GENERATE_A_DATE,
         element: <GenerateADateForm />,
+      },
+      {
+        ...LOGIN,
+        element: <Login />,
       },
     ],
   },

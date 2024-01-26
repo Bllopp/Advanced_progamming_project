@@ -4,12 +4,14 @@ import { ReactComponent as BurgerMenuIcon } from "@/assets/burger-menu.svg";
 import { ReactComponent as CloseIcon } from "@/assets/close-circle.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import { PATHS } from "../router/paths";
+import { HOME, ABOUT_US, GENERATE_A_DATE } from "@/router/routes";
 import { useState } from "react";
 import { CustomButton } from "./CustomButton";
 
 export const TopBar = ({ isMenuOpen, setIsMenuOpen }) => {
-  const [rootElement] = PATHS.filter((path) => path.path === "");
+
+  const topBarRoutes = [HOME, ABOUT_US, GENERATE_A_DATE];
+  
   const navigateTo = (element) => {
     setElements(
       elements.map((el) => ({
@@ -24,7 +26,7 @@ export const TopBar = ({ isMenuOpen, setIsMenuOpen }) => {
   const location = useLocation();
 
   const [elements, setElements] = useState(
-    rootElement.children.map((element) => ({
+    topBarRoutes.map((element) => ({
       ...element,
       isActive: element.path === location.pathname,
     }))
