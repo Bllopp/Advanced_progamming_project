@@ -2,6 +2,7 @@ package com.example.testauthservice.controller;
 
 import com.example.testauthservice.config.JwtTokenProvider;
 import com.example.testauthservice.constants.UrlConstants;
+import com.example.testauthservice.dto.UserDto;
 import com.example.testauthservice.dto.UserRegistrationDto;
 import com.example.testauthservice.entity.UserEntity;
 import com.example.testauthservice.service.UserService;
@@ -17,6 +18,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 import static org.hibernate.query.sqm.tree.SqmNode.log;
 
 @Controller
@@ -81,6 +85,18 @@ public class MainController {
             return new ResponseEntity<>("Unexpected error during registration", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/all")
+    public @ResponseBody List<UserDto> getAll(){
+        return userService.getAllUser();
+    }
+
+    @GetMapping("/{userId}")
+    public @ResponseBody UserDto getUser(@PathVariable long userId){
+        return userService.getUserDto(userId);
+    }
+
+
 
     private UserEntity convertDtoToEntity(UserRegistrationDto userDto){
         UserEntity userEntity = new UserEntity();

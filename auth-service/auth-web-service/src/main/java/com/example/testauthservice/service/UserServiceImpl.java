@@ -1,5 +1,6 @@
 package com.example.testauthservice.service;
 
+import com.example.testauthservice.dto.UserDto;
 import com.example.testauthservice.entity.UserEntity;
 import com.example.testauthservice.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -10,8 +11,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +24,18 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+
+    @Transactional
+    @Override
+    public @ResponseBody List<UserDto> getAllUser(){
+        List<UserEntity> listUser = userRepository.findAll();
+
+        return listUser.stream().map(User -> {
+            return new UserDto(User);
+        }).toList();
+
+    }
 
     @Transactional
     @Override
@@ -57,6 +72,20 @@ public class UserServiceImpl implements UserService{
     public Optional<UserEntity> getUserById(Long id){
         log.debug("Attempting to retrieve user by ID: {}", id);
         return userRepository.findById(id);
+    }
+
+
+
+    @Override
+    public UserDto getUserDto(long id) {
+        Optional<UserEntity> mayBeUser = userRepository.findById(id);
+
+        if (mayBeUser.isPresent()) {
+            UserEntity user = mayBeUser.get();
+            return new UserDto(user); // Assuming UserDto has a constructor that accepts UserEntity
+        } else {
+            return null; // Or throw an exception or handle the empty case according to your design
+        }
     }
 
     @Override
