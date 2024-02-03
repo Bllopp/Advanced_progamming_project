@@ -12,8 +12,6 @@ public class PresentationEntity {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int presId;
 
-
-
     @Column(name = "studentId")
     private int studentId;
 
@@ -90,4 +88,6 @@ public class PresentationEntity {
                 ", finalDate=" + finalDate +
                 '}';
     }
+
+
 }

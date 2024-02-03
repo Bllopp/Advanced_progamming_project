@@ -1,0 +1,29 @@
+:root {
+    --topbar-height: 4rem;
+    --padding-button: 0.75rem;
+    --logo-height: 3rem;
+    --logowidth: 10rem;
+    --content-height: calc(100vh - var(--topbar-height));
+}
+
+
+.translate-page {
+    transform: translateY(var(--topbar-height));
+}
+
+@media not all and (min-width: 640px){
+.max-sm\:translate-page{
+    transform: translateY(calc(var(--topbar-height) * 2 + var(--padding-button) * 6));
+}
+
+.py-button{
+    padding-top: var(--padding-button);
+    padding-bottom: var(--padding-button);
+    }
+}
+
+.dragover{
+    border: dashed ;
+    opacity: .5;
+    background-color: var(--tertiary);
+}
