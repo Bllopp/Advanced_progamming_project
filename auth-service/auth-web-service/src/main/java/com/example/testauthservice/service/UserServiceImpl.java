@@ -77,6 +77,7 @@ public class UserServiceImpl implements UserService{
         return user.isPresent();
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserEntity> userEntityOptional = userRepository.findByUsername(username);
@@ -91,7 +92,8 @@ public class UserServiceImpl implements UserService{
 
         org.springframework.security.core.userdetails.User userDetails =
                 new org.springframework.security.core.userdetails.User(
-                        userEntity.getUsername(),
+                        //userEntity.getUsername(),
+                        userEntity.getId().toString(),
                         userEntity.getPassword(),
                         authorities  // pass the authorities here
                 );

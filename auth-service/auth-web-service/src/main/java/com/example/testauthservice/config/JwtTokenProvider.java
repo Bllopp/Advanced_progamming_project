@@ -6,9 +6,12 @@ import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.security.Key;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Configuration
 public class JwtTokenProvider {
@@ -28,12 +31,14 @@ public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication){
         String username = authentication.getName();
+        Collection<GrantedAuthority> userRole = (Collection<GrantedAuthority>) authentication.getAuthorities();
+        List<String> roles = userRole.stream().map(role -> role.getAuthority()).toList();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
-        //Key key = getKey();
 
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", roles.get(0))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(key)
