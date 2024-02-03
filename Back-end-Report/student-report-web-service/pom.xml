@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>student-presentation-web-service</artifactId>
+	<artifactId>student-report-web-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>student-presentation-web-service</name>
+	<name>student-report-web-service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
@@ -42,6 +42,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.0.2</version>
@@ -52,11 +58,6 @@
 			<version>2.9.2</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.security</groupId>-->
 <!--			<artifactId>spring-security-test</artifactId>-->
