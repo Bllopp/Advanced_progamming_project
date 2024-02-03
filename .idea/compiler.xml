@@ -8,11 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="student-report-web-service" />
         <module name="todo-app-auth-service" />
+        <module name="student-presentation-web-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="student-presentation-web-service" options="-parameters" />
       <module name="student-report-web-service" options="-parameters" />
       <module name="todo-app-auth-service" options="-parameters" />
     </option>
