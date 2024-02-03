@@ -11,7 +11,7 @@ public class SubmitBody {
     @JsonProperty("file")
     private MultipartFile file;
 
-    @JsonProperty("tutorId")
+    @JsonProperty("teacherId")
     private Integer teacherId;
 
     @JsonProperty("tutorId")
