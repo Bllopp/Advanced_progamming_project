@@ -37,7 +37,7 @@ public class MainController {
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) })
     })
     @PostMapping(path="/submit")
-    public @ResponseBody String submitReport (@RequestBody SubmitBody body){
+    public @ResponseBody String submitReport (@ModelAttribute SubmitBody body){
 
        return reportService.submit(body);
 
