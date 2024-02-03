@@ -3,6 +3,8 @@ package com.example.testauthservice.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 public class UserRegistrationDto {
     @NotBlank(message = "Username cannot be blank")
@@ -16,6 +18,9 @@ public class UserRegistrationDto {
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Invalid email format")
     private String email;
+
+    @Value(value = "USER")
+    private String role;
 
     public String getUsername(){
         return username;
@@ -35,6 +40,14 @@ public class UserRegistrationDto {
 
     public String getEmail(){
         return email;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getRole(){
+        return role;
     }
 
     public void setEmail(String email){
