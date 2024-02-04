@@ -29,12 +29,40 @@ import java.util.Date;
 import java.util.Optional;
 
 @Controller
-//@RequestMapping(path = "/test")
 @RequestMapping(path = "/reports")
 public class MainController {
 
     @Autowired
     private ReportService reportService;
+
+    private Jws<Claims> checkToken(String token) throws Exception {
+        Jws<Claims> jws;
+
+        byte[] secret = "randomKeyForHS512Algorithm123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890".getBytes();
+
+        try{
+            if (token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
+
+            jws = Jwts.parserBuilder()
+                    .setSigningKey(secret)
+                    .build()
+                    .parseClaimsJws(token);
+        }catch (ExpiredJwtException e){
+            throw new Exception(e);
+        }catch (UnsupportedJwtException | MalformedJwtException e) {
+            // The JWT was not correctly constructed and should be rejected
+            throw new Exception(e);
+        } catch (JwtException e) {
+            // Any other JWT related exception
+            throw new Exception(e);
+        } catch (IllegalArgumentException e) {
+            // The JWT token is null or empty and should be rejected
+            throw new Exception(e);
+        }
+        return jws;
+    }
 
     @Operation(summary = "Submit a report", description = "Submit a report with the provided information")
     @ApiResponses({
@@ -43,64 +71,12 @@ public class MainController {
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) })
     })
     @PostMapping(path="/submit")
-    public @ResponseBody String submitReport (@RequestHeader("Authorization") String token, @ModelAttribute SubmitBody body){
-        Jws<Claims> jws;
-        byte[] secret = "randomKeyForHS512Algorithm123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890".getBytes();
-
-        try {
-            System.out.println("Received token: " + token);
-
-            if (token.startsWith("Bearer ")) {
-                token = token.substring(7);
-            }
-
-            System.out.println("Token after stripping Bearer: " + token);
-
-            //SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode("randomKeyForHS512Algorithm123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"));
-            //Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
-            jws = Jwts.parserBuilder()
-                    .setSigningKey(secret)
-                    .build()
-                    .parseClaimsJws(token);
-
-            System.out.println("Successfully decoded JWT");
-
-        } catch (ExpiredJwtException e) {
-            // The JWT expired and is no longer valid
-            return "Expired JWT token";
-        } catch (UnsupportedJwtException e) {
-            // The JWT was not correctly constructed and should be rejected
-            return "Unsupported JWT token";
-        } catch (MalformedJwtException e) {
-            // The JWT was not correctly constructed and should be rejected
-            return "Malformed JWT token";
-        } catch (JwtException e) {
-            // Any other JWT related exception
-            return "Invalid JWT token";
-        } catch (IllegalArgumentException e) {
-            // The JWT token is null or empty and should be rejected
-            return "Empty JWT token";
-        }
-
-        /*Claims claims = jws.getBody();
-        String subject = claims.getSubject();
-        String role = claims.get("role", String.class);*/
+    public @ResponseBody String submitReport (@RequestHeader("Authorization") String token, @ModelAttribute SubmitBody body) throws Exception{
+        Jws<Claims> jws = checkToken(token);
 
        return reportService.submit(body);
 
     }
-
-/*    @RequestMapping(value = "/your-endpoint", method = RequestMethod.GET)public ResponseEntity<String> yourMethod(@RequestHeader("Authorization") String token) {
-        // Remove the "Bearer " prefix    if (token.startsWith("Bearer ")) {
-        token = token.substring(7);
-    }
-    // Decode the token    Jwt jwtToken = JwtHelper.decode(token);
-    // Get the claims (the payload of the token)    String claims = jwtToken.getClaims();
-    // TODO: Use the claims
-    return ResponseEntity.ok(claims);
-}
-    Dispose d’un menu contextuel*/
-
 
     @Operation(summary = "Download a report by student ID", description = "Download a report by providing the student ID")
     @ApiResponses({
@@ -109,7 +85,8 @@ public class MainController {
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) })
     })
     @GetMapping("/download/{studentId}")
-    public ResponseEntity<byte[]> downloadReport(@PathVariable Integer studentId) {
+    public ResponseEntity<byte[]> downloadReport(@RequestHeader("Authorization") String token, @PathVariable Integer studentId) throws Exception {
+        Jws<Claims> jws = checkToken(token);
 
         return reportService.download(studentId);
     }
@@ -117,8 +94,10 @@ public class MainController {
     @Operation(summary = "Validate a report by student ID", description = "Validate a report by providing the student ID")
     @PostMapping(path = "/validate/studentId")
     public @ResponseBody String validateReport(
+            @RequestHeader String token,
             @PathVariable Integer studentId
-    ) {
+    ) throws Exception {
+        Jws<Claims> jws = checkToken(token);
         return reportService.validate(studentId);
 
 
@@ -126,7 +105,9 @@ public class MainController {
 
     @Operation(summary = "Submit a teacher vote", description = "Submit a teacher vote for a student report")
     @PostMapping("/vote/{role}/{studentId}")
-    public @ResponseBody String submitTeacherVote(@PathVariable("studentId") Integer studentId,@PathVariable("role") String role, @RequestBody Integer vote){
+    public @ResponseBody String submitTeacherVote(@RequestHeader("Authorization") String token, @PathVariable("studentId") Integer studentId,@PathVariable("role") String role, @RequestBody Integer vote) throws Exception{
+        Jws<Claims> jws = checkToken(token);
+
         return reportService.submitVote(studentId, role, vote);
     }
 
@@ -170,7 +151,8 @@ public class MainController {
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) })
     })
     @GetMapping("/all")
-    public @ResponseBody Iterable<ReportEntity> getAllReports() {
+    public @ResponseBody Iterable<ReportEntity> getAllReports(@RequestHeader("Authorization") String token) throws Exception {
+        Jws<Claims> jws = checkToken(token);
         return reportService.getAll();
 //        return reportRepository.findAll();
     }
