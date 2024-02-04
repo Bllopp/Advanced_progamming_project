@@ -91,8 +91,8 @@ public class MainController {
         return reportService.download(studentId);
     }
 
-    @Operation(summary = "Validate a report by student ID", description = "Validate a report by providing the student ID")
-    @PostMapping(path = "/validate/studentId")
+    @Operation(summary = "Check the validation status of a report by student ID", description = "Validate a report by providing the student ID")
+    @GetMapping(path = "/validation-status/studentId")
     public @ResponseBody String validateReport(
             @RequestHeader String token,
             @PathVariable Integer studentId
