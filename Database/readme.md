@@ -2,22 +2,19 @@
 
 One database per micro-service + 1 for users
 
-## Database for User
+## Database for Users
 2 tables for users infos and roles
-#### User
 
-| id | name | mail | password |
-|---|------|----|---|
-| 1 | Jhon Doe | jhondoe@efrei.net| password |
-| 2 | Jacque Augustin | JA@efrei.fr | password2|
+### User
 
+| id | created_at          | email             | password                   | role      | username        |
+|----|---------------------|-------------------|----------------------------|-----------|-----------------|
+| 1  | 2024-08-19 14:21:52 | jhondoe@efrei.net | $1$$yqV86f/QMuuFHLiLRnJ5R1 | STUDENT   | Jhon Doe        |
+| 2  | 2023-11-25 06:26:31 | JA@efrei.fr       | $1$$wPM0EW3FTDlt4aI4fY65Z0 | TEACHER   | Jacque Augustin |  
 
-#### Role
+The field `created_at` is automatically generated when the user is created by MySQL.
 
-| id | role |
-| --| -- |
-| 1 | student |
-| 2 | teacher |
+The field `password` is encrypted using Bcrypt cyphering. 
 
 
 ## Student presentation
