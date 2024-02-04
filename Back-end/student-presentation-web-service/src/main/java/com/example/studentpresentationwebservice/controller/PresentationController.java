@@ -8,7 +8,10 @@ import com.example.studentpresentationwebservice.entity.PresentationEntity;
 import com.example.studentpresentationwebservice.repository.PresentationDatesRepository;
 import com.example.studentpresentationwebservice.service.PresentationDateService;
 import com.example.studentpresentationwebservice.service.PresentationService;
+import io.jsonwebtoken.*;
 import jakarta.transaction.Transactional;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.hibernate.engine.jdbc.mutation.internal.PreparedStatementGroupNone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/presentation")
@@ -35,13 +39,49 @@ public class PresentationController {
     @Autowired
     private PresentationDatesRepository presentationDatesRepository;
 
+    private Jws<Claims> checkToken(String token) throws Exception {
+        Jws<Claims> jws;
+
+        byte[] secret = "randomKeyForHS512Algorithm123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890".getBytes();
+
+        try{
+            if (token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
+
+            jws = Jwts.parserBuilder()
+                    .setSigningKey(secret)
+                    .build()
+                    .parseClaimsJws(token);
+
+
+        }catch (ExpiredJwtException e) {
+            // The JWT expired and is no longer valid
+            throw new Exception(e);
+        } catch (UnsupportedJwtException | MalformedJwtException e) {
+            // The JWT was not correctly constructed and should be rejected
+            throw new Exception(e);
+        } catch (JwtException e) {
+            // Any other JWT related exception
+            throw new Exception(e);
+        } catch (IllegalArgumentException e) {
+            // The JWT token is null or empty and should be rejected
+            throw new Exception(e);
+        }
+
+        return jws;
+    }
+
     @Operation(summary = "Initialize presentation", description = "Initialize a new presentation")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Presentation initialized"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @PostMapping(path = "/add")
-    public @ResponseBody String init_presentation(@RequestBody PresentationBody presBody) {
+    public @ResponseBody String init_presentation(@RequestBody PresentationBody presBody, @RequestHeader("Authorization") String token ) throws Exception {
+
+        Jws<Claims> jws = checkToken(token);
+
         try {
 
 
@@ -66,7 +106,10 @@ public class PresentationController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping("/{userId}")
-    public @ResponseBody List<PresentationEntity> getPresByUserId(@PathVariable("userId") Integer userId){
+    public @ResponseBody List<PresentationEntity> getPresByUserId(@PathVariable("userId") Integer userId, @RequestHeader("Authorization") String token) throws Exception {
+
+        Jws<Claims> jws = checkToken(token);
+
         List<PresentationEntity> filteredPres = presentationService.getById(userId);
 
 
@@ -89,7 +132,9 @@ public class PresentationController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping("/vote/{presId}/{date}")
-    public @ResponseBody Optional<PresentationDatesEntity> getPresVote2(@PathVariable("presId") Integer presId, @PathVariable("date") String date){
+    public @ResponseBody Optional<PresentationDatesEntity> getPresVote2(@PathVariable("presId") Integer presId, @PathVariable("date") String date, @RequestHeader("Authorization") String token) throws Exception {
+        Jws<Claims> jws = checkToken(token);
+
         return presentationDateService.getByIdDates(presId, date);
     }
 
@@ -101,7 +146,8 @@ public class PresentationController {
     })
     @Transactional
     @PostMapping("/vote/{presId}/add")
-    public @ResponseBody String newVote(@RequestBody VoteBody body, @PathVariable Integer presId){
+    public @ResponseBody String newVote(@RequestBody VoteBody body, @PathVariable Integer presId, @RequestHeader("Authorization") String token) throws Exception{
+        Jws<Claims> jws = checkToken(token);
        return presentationDateService.create3Vote(body,presId);
     }
 
@@ -112,7 +158,9 @@ public class PresentationController {
     })
     @Transactional
     @PostMapping("/vote/{presId}")
-    public @ResponseBody String modifyVote(@RequestBody VoteBody body, @PathVariable Integer presId){
+    public @ResponseBody String modifyVote(@RequestBody VoteBody body, @PathVariable Integer presId, @RequestHeader("Authorization") String token) throws Exception{
+        Jws<Claims> jws = checkToken(token);
+
         return presentationDateService.update3Votes(body,presId);
     }
 
