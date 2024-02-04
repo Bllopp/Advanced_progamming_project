@@ -5,9 +5,15 @@ It includes the following:
 1. An electronic document management system to archive all the reports about internships.
 2. An internship follow-up system for internship tutors.
 
-## Diagram
+## Diagrams
 
+Here is our architecture diagram using docker:
 
+![architecture diagram.png](architecture%20diagram.png)
+
+In the future we would like to integrate our services to a Kubernetes cluster. Here is a diagram to illustrate our architecture:
+
+![Diagram with Kube.png](Diagram%20with%20Kube.png)
 
 ## Swagger Documentation
 
