@@ -53,7 +53,7 @@ its architecture wisely.
 > 
 > ### Results
 >
-> Return a list of reports in a JSON array
+> Return an HTTP response with the pdf file in the body and the right header
 >
 >
 > *Example :*
