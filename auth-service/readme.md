@@ -1,37 +1,50 @@
-# BackEnd Application
+# Authentication Service
+
+This is a Spring application that allow users to register and login with its credentials.
+
 
 ## Application Architecture 
 
-The Back-End application is splitted in 2 parts :
- - Student presentation related
- - Report validation related
+The service uses the Spring Security dependency to manage the login function.\
+The register function is handle in our controller.
 
-### Student presentation
+This service is connected to the MySQL database **auth_service_db**, its schema is described in detail [here](../Database/readme.md)
 
-- Student proposes 3 dates for his defense
-  - url: `/propose_dates`
-  - method: `POST`
-  - data: form(studentID, dates, presentation infos, mail)
-- Teacher / tutor retrieve the list of presentation dates
-  - url: `/get_presentation/mail`
-  - method: `GET`
-  - data: dates, studentID ?, infos ?, defenseID
-- Teacher / tutor send their availabilities
-  - url: `/send_available/defenseID`
-  - method: `POST`
-  - data: dates
+This application tend to use SOLID principle to assure re-usability, better architecture and readable code.
 
-### Report validation
+## Register & Login
+- ### `POST /register`
 
-- Student sends his report as pdf
-  - url: `/send_report`
-  - method: `POST`
-  - data: file (blob), tutorID, teacherID
-- Teacher / tutor retrieve the student's report
-  - url: `/get_report/ID`
-  - method: `GET`
-  - data: file, reportID
-- Teacher / tutor validate or not the report
-  - url: `/validate/reportID`
-  - method: `POST`
-  - data: boolean, ID
+Called when a user want to register in the database.
+
+#### Expect
+`Content-Type: application/json`
+```json register JSON
+{
+  "username" : "YourUsername",
+  "password" : "YourPassword",
+  "email" : "your.address@mail.com",
+  "role" : "role"
+}
+```
+#### Result
+Add a new entry in the `user` table\
+Return a JWT token containing the user's ID and its role.
+
+- ### `POST /login`
+
+Called when a user wants to log in to access to other services.
+
+#### Expect
+
+`Content-Type: application/x-www-form-urlencoded`
+
+| Parameter | Type   | Description      |
+|-----------|--------|------------------|
+| username  | String | The user's name  |
+| password  | String | The user's password |
+| email     | String | The user's email |
+| role      | String | The user's role |
+
+#### Result
+Return a JWT token if the connection succeed with the user's ID and role.

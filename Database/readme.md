@@ -1,9 +1,11 @@
 # Database Architecture
 
-One database per micro-service + 1 for users
+The databases and services are designed to be only use by the associated service.\
+In production, these databases should be place in a dedicated Docker container,
+available to the matching service.
 
 ## Database for Users
-2 tables for users infos and roles
+One table that contains all the info related to a user : mail, password, role...
 
 ### User
 
@@ -26,7 +28,7 @@ Presentation_dates table for keeping track of availabilities
 | -- | --- | --- | ---- | ------ | --- |
 | 1 | 1 | remote | 2 | 3 |  null |
 
-### Presentation_dates (temporary)
+### Presentation_dates
 | PresID | date  | teacherVote | tutorVote |
 | ---- | ---  | --- | --- |
 |  1  | 2024-09-13 | 0 |  1 |

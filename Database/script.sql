@@ -17,8 +17,20 @@ USE `presentation_APP`;
 
 create table if not exists `presentation` (`presId` int not null auto_increment, `studentId` int not null, constraint `FK_studentId` foreign key (`studentId`) references `user_APP`.`user`(`userId`), `mode` varchar(30) not null , `teacherId` int not null , `tutorId` int not null , `finalDate` date, primary key (`presId`), constraint `FK_teacherId` foreign key (`teacherId`) references `user_APP`.`user`(`userId`), constraint `FK_tutorId` foreign key (`tutorId`) references `user_APP`.`user`(`userId`))ENGINE=INNODB;
 
-create table if not exists `presentationDates` (`presId` int not null , `date` date not null, `teacherVote` int, `tutorVote` int, primary key(`presId`,`date`), constraint `FK_presId` foreign key (`presId`) references `presentation`(`presId`))ENGINE=INNODB; 
+create table if not exists `presentationDates` (`presId` int not null , `date` date not null, `teacherVote` int, `tutorVote` int, primary key(`presId`,`date`), constraint `FK_presId` foreign key (`presId`) references `presentation`(`presId`))ENGINE=INNODB;
 
+DELIMITER //
+CREATE TRIGGER update_date
+    AFTER UPDATE ON `presentationDates`
+    FOR EACH ROW
+BEGIN
+    IF NEW.teacherVote = 1 AND NEW.tutorVote = 1 THEN
+        UPDATE `presentation`
+        SET presentation.finalDate = NEW.date
+        WHERE presentation.presId = NEW.presId;
+    END IF;
+END;//
+DELIMITER ;
 
 -- For report database which contains report informations the validation of it 
 CREATE DATABASE IF NOT EXISTS `report_APP`;
@@ -26,3 +38,4 @@ CREATE DATABASE IF NOT EXISTS `report_APP`;
 USE `report_APP`;
 
 create table if not exists `report` (`studentId` int not null , primary key (`studentId`), `file` MEDIUMBLOB not null, teacherId int not null , constraint `FK_report_teacherId` foreign key (`teacherId`) references `user_APP`.`user`(`userId`), `teacherVote` int , `tutorId` int not null, constraint `FK_report_tutorId` foreign key (`tutorId`) references `user_APP`.`user`(`userId`), `tutorVote` int, `uploadDate` date not null )ENGINE=INNODB;
+
