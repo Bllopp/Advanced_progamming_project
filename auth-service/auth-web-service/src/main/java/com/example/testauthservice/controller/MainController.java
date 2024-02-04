@@ -5,6 +5,9 @@ import com.example.testauthservice.constants.UrlConstants;
 import com.example.testauthservice.dto.UserRegistrationDto;
 import com.example.testauthservice.entity.UserEntity;
 import com.example.testauthservice.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +63,12 @@ public class MainController {
         }
     }*/
 
+    @Operation(summary = "Register a new user", description = "Registers a new user with the provided information")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Username or email already taken"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @PostMapping(path=UrlConstants.REGISTER_URL)
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistrationDto userDto) {
         try {
