@@ -26,7 +26,8 @@ public class JwtTokenProvider {
 
     public JwtTokenProvider(@Value("${app.jwtSecret}") String jwtSecret) {
         this.jwtSecret = jwtSecret;
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        //this.key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
 
     public String generateToken(Authentication authentication){
