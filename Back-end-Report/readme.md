@@ -85,7 +85,7 @@ its architecture wisely.
 >
 > *Example :*
 >
-> `POST report/validation-status/643`
+> `GET report/validation-status/643`
 >
 >
 > </details>
