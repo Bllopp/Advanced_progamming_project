@@ -1,4 +1,4 @@
-import './ReviewForm.css';
+import '../../../styles/ReviewForm.css';
 import React from "react";
 
 export const ReviewForm = () => {
