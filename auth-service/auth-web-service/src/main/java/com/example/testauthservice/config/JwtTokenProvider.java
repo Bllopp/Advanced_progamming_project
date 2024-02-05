@@ -22,10 +22,13 @@ public class JwtTokenProvider {
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
+    private byte[] secret ;
+
     private final Key key;
 
     public JwtTokenProvider(@Value("${app.jwtSecret}") String jwtSecret) {
         this.jwtSecret = jwtSecret;
+        this.secret = jwtSecret.getBytes();
         //this.key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
         this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
@@ -47,15 +50,39 @@ public class JwtTokenProvider {
     }
 
     public String extractUsername(String token){
-        return Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token.substring(7)).getBody().getSubject();
     }
 
-    public boolean validateToken(String token){
-        try {
-            Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(token);
-            return true;
-        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
-            return false;
+    public boolean validateToken(String token) throws Exception {
+        Jws<Claims> jws;
+
+        byte[] secret = "randomKeyForHS512Algorithm123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890".getBytes();
+
+        try{
+            if (token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
+
+            jws = Jwts.parserBuilder()
+                    .setSigningKey(secret)
+                    .build()
+                    .parseClaimsJws(token);
+
+
+        }catch (ExpiredJwtException e) {
+            // The JWT expired and is no longer valid
+            throw new Exception(e);
+        } catch (UnsupportedJwtException | MalformedJwtException e) {
+            // The JWT was not correctly constructed and should be rejected
+            throw new Exception(e);
+        } catch (JwtException e) {
+            // Any other JWT related exception
+            throw new Exception(e);
+        } catch (IllegalArgumentException e) {
+            // The JWT token is null or empty and should be rejected
+            throw new Exception(e);
         }
+
+        return true;
     }
 }

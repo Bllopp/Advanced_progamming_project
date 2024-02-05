@@ -38,12 +38,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (!path.equals(UrlConstants.REGISTER_URL) && !path.equals(UrlConstants.LOGIN_URL)){
             String jwtToken = extractJwtFromRequest(request);
 
-            if (jwtToken != null && jwtTokenProvider.validateToken(jwtToken)){
-                String username = jwtTokenProvider.extractUsername(jwtToken);
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, null, null);
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            } else {
-                logger.debug("Invalid or missing JWT Token");
+            try {
+                if (jwtToken != null && jwtTokenProvider.validateToken(jwtToken)){
+//                    String username = jwtTokenProvider.extractUsername(jwtToken);
+//                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, null, null);
+//                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                } else {
+                    logger.debug("Invalid or missing JWT Token");
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
 
             chain.doFilter(request, response);
