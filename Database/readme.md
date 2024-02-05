@@ -1,23 +1,22 @@
 # Database Architecture
 
-One database per micro-service + 1 for users
+The databases and services are designed to be only use by the associated service.\
+In production, these databases should be place in a dedicated Docker container,
+available to the matching service.
 
-## Database for User
-2 tables for users infos and roles
-#### User
+## Database for Users
+One table that contains all the info related to a user : mail, password, role...
 
-| id | name | mail | password |
-|---|------|----|---|
-| 1 | Jhon Doe | jhondoe@efrei.net| password |
-| 2 | Jacque Augustin | JA@efrei.fr | password2|
+### User
 
+| id | created_at          | email             | password                   | role      | username        |
+|----|---------------------|-------------------|----------------------------|-----------|-----------------|
+| 1  | 2024-08-19 14:21:52 | jhondoe@efrei.net | $1$$yqV86f/QMuuFHLiLRnJ5R1 | STUDENT   | Jhon Doe        |
+| 2  | 2023-11-25 06:26:31 | JA@efrei.fr       | $1$$wPM0EW3FTDlt4aI4fY65Z0 | TEACHER   | Jacque Augustin |  
 
-#### Role
+The field `created_at` is automatically generated when the user is created by MySQL.
 
-| id | role |
-| --| -- |
-| 1 | student |
-| 2 | teacher |
+The field `password` is encrypted using Bcrypt cyphering. 
 
 
 ## Student presentation
@@ -29,7 +28,7 @@ Presentation_dates table for keeping track of availabilities
 | -- | --- | --- | ---- | ------ | --- |
 | 1 | 1 | remote | 2 | 3 |  null |
 
-### Presentation_dates (temporary)
+### Presentation_dates
 | PresID | date  | teacherVote | tutorVote |
 | ---- | ---  | --- | --- |
 |  1  | 2024-09-13 | 0 |  1 |

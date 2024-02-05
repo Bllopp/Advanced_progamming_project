@@ -5,12 +5,7 @@ import { ReportUploadForm } from "@components/MultiStepForm/stepsComponents/Repo
 
 export const GenerateADateForm = () => {
   return (
-    <div className="flex max-md:flex-col gap-1 h-[var(--content-height)] w-full">
-      <Stepper />
-      <div className="w-full h-full bg-[var(--tertiary)] border-2">
-        <ReportUploadForm />
-      </div>
-    </div>
+      <ReportUploadForm />
 
     // <div
     //   style={{

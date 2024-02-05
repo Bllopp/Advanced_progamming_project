@@ -8,11 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -102,6 +105,7 @@ public class UserServiceImpl implements UserService{
         return user.isPresent();
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserEntity> userEntityOptional = userRepository.findByUsername(username);
@@ -111,13 +115,19 @@ public class UserServiceImpl implements UserService{
 
         UserEntity userEntity = userEntityOptional.get();
 
+        // Create a GrantedAuthority from the role
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(userEntity.getRoles()));
+
         org.springframework.security.core.userdetails.User userDetails =
                 new org.springframework.security.core.userdetails.User(
-                userEntity.getUsername(),
-                userEntity.getPassword(),
-                null
-        );
+                        //userEntity.getUsername(),
+                        userEntity.getId().toString(),
+                        userEntity.getPassword(),
+                        authorities  // pass the authorities here
+                );
 
         return userDetails;
     }
+
+
 }

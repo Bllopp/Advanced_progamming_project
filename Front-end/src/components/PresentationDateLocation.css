@@ -1,0 +1,63 @@
+/* PresentationDateLocation.css */
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inner-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px;
+    border: 2px solid #468CCC;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.box {
+    padding: 10px;
+    margin: 0;
+}
+
+.title {
+    background-color: #EBEBEB;
+    color: #468CCC;
+    font-size: 30px;
+}
+
+.date-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.date-time-location-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-time-location {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+select {
+    margin-left: 5px;
+}
+
+.submit-button {
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    background-color: #468CCC;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+label {
+    margin: 5px;
+}
+

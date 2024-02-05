@@ -2,6 +2,7 @@ package com.example.testauthservice.config;
 
 import com.example.testauthservice.constants.UrlConstants;
 import com.example.testauthservice.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -84,7 +85,15 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
                 .formLogin((form) -> form
                         .loginPage(UrlConstants.LOGIN_URL)
                         .permitAll()
-                        .successHandler(((request, response, authentication) -> response.sendRedirect("/dashboard")))
+                        //.successHandler(((request, response, authentication) -> response.sendRedirect("/dashboard")))
+                        .successHandler((request, response, authentication) -> {
+                            // Generate JWT token
+                            String jwtToken = jwtTokenProvider.generateToken(authentication);
+
+                            // Add the token to the response
+                            response.getWriter().write("Bearer " + jwtToken);
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        })
                         .failureUrl("/login?error=true")
                 )
                 //.logout((logout) -> logout.permitAll())

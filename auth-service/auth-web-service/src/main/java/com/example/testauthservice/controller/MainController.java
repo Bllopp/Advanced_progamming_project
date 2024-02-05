@@ -6,6 +6,9 @@ import com.example.testauthservice.dto.UserDto;
 import com.example.testauthservice.dto.UserRegistrationDto;
 import com.example.testauthservice.entity.UserEntity;
 import com.example.testauthservice.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.util.Collections;
 import java.util.List;
 
 import static org.hibernate.query.sqm.tree.SqmNode.log;
@@ -35,7 +42,7 @@ public class MainController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping(path = UrlConstants.LOGIN_URL)
+    /*@PostMapping(path = UrlConstants.LOGIN_URL)
     public ResponseEntity<String> loginUser(@Valid @RequestBody UserRegistrationDto userDto) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -56,8 +63,14 @@ public class MainController {
             log.error("Error during login", e);
             return new ResponseEntity<>("Unexpected error during login", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    }*/
 
+    @Operation(summary = "Register a new user", description = "Registers a new user with the provided information")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Username or email already taken"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @PostMapping(path=UrlConstants.REGISTER_URL)
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistrationDto userDto) {
         try {
@@ -71,9 +84,10 @@ public class MainController {
 
             UserEntity newUser = convertDtoToEntity(userDto);
             UserEntity savedUser = userService.createUser(newUser);
+            List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(userDto.getRole()));
 
             if (savedUser != null) {
-                String token = jwtTokenProvider.generateToken(new UsernamePasswordAuthenticationToken(savedUser.getUsername(), null, null));
+                String token = jwtTokenProvider.generateToken(new UsernamePasswordAuthenticationToken(savedUser.getUsername(), null, authorities));
                 log.info("Exiting registerUser method");
                 return new ResponseEntity<>(token, HttpStatus.OK);
             } else {
@@ -103,6 +117,7 @@ public class MainController {
         userEntity.setUsername(userDto.getUsername());
         userEntity.setPassword(userDto.getPassword()); //hash the password
         userEntity.setEmail(userDto.getEmail());
+        userEntity.setRoles(userDto.getRole());
         return userEntity;
     }
 }

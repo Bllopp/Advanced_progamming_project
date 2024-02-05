@@ -36,7 +36,6 @@ public  class PresentationService {
     {
         PresentationEntity p = new PresentationEntity();
         p.setStudentId(presBody.getStudentId());
-        p.setMode(presBody.getMode());
         p.setTeacherId(presBody.getTeacherId());
         p.setTutorId(presBody.getTutorId());
         return presentationRepository.save(p);
