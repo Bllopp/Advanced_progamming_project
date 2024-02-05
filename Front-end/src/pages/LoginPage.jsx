@@ -3,7 +3,7 @@ import { LoginForm } from "../components/LoginComponents/LoginForm";
 import { RegisterForm } from "../components/LoginComponents/RegisterForm";
 import { Tabs, Tab, Box } from '@mui/material';
 
-export const LoginPage = () => {
+export const LoginPage = ({setLogIn}) => {
     const [tabIndex, setTabIndex] = useState(0); // 0 for login, 1 for register
 
     const handleTabChange = (event, newIndex) => {
@@ -17,8 +17,8 @@ export const LoginPage = () => {
                 <Tab label="Register" />
             </Tabs>
             <Box sx={{ p: 3 }}>
-                {tabIndex === 0 && <LoginForm />}
-                {tabIndex === 1 && <RegisterForm />}
+                {tabIndex === 0 && <LoginForm setLogIn={setLogIn} />}
+                {tabIndex === 1 && <RegisterForm setLogIn={setLogIn} />}
             </Box>
         </div>
     );

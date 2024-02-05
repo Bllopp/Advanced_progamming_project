@@ -30,7 +30,7 @@ import java.util.List;
 
 import static org.hibernate.query.sqm.tree.SqmNode.log;
 
-@Controller
+@RestController
 @RequestMapping(path = UrlConstants.HOME_URL)
 public class MainController {
     @Autowired
@@ -99,6 +99,7 @@ public class MainController {
             return new ResponseEntity<>("Unexpected error during registration", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @GetMapping("/all")
     public @ResponseBody List<UserDto> getAll(){

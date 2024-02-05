@@ -3,6 +3,8 @@ package com.example.studentreportwebservice.service;
 import com.example.studentreportwebservice.domain.SubmitBody;
 import com.example.studentreportwebservice.entity.ReportEntity;
 import com.example.studentreportwebservice.repository.ReportRepository;
+import io.jsonwebtoken.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,25 +16,64 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public  class ReportService {
+
+    public Integer userId;
+
     @Autowired
     ReportRepository reportRepository;
 
+    @Transactional
+    public List<ReportEntity> getById(Integer userId) {
+        List<ReportEntity> matchedReport = reportRepository.findByStudentIdOrTeacherIdOrTutorId(userId, userId, userId);
+        return matchedReport;
+    }
+
+    private Integer getUserIdFromToken(String token) throws Exception {
+        Jws<Claims> jws;
+
+        byte[] secret = "randomKeyForHS512Algorithm123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890".getBytes();
+        try {
+            if(token.startsWith("Bearer ")){
+                token = token.substring(7);
+            }
+
+            jws = Jwts.parserBuilder()
+                    .setSigningKey(secret)
+                    .build()
+                    .parseClaimsJws(token);
+
+            Integer userId = Integer.parseInt(jws.getBody().getSubject());
+        } catch (ExpiredJwtException e) {
+            throw new Exception(e);
+        } catch (UnsupportedJwtException | MalformedJwtException e) {
+            throw new Exception(e);
+        } catch (JwtException e) {
+            throw new Exception(e);
+        } catch (IllegalArgumentException e) {
+            throw new Exception(e);
+        }
+
+        return userId;
+    }
 
     @Transactional
-    public @ResponseBody String submit(SubmitBody body){
+    public @ResponseBody String submit(String token, SubmitBody body) throws Exception{
 
+        Integer userId = getUserIdFromToken(token);
+        System.out.println(userId);
         try {
             if (body.getFile().isEmpty()) {
                 return "The file you submitted is empty. Please submit a valid file.";
             }
 
             ReportEntity report = new ReportEntity();
-            report.setStudentId(body.getStudentId());
+            report.setStudentId(userId);
             report.setFile(body.getFile().getBytes());
             report.setTeacherId(body.getTeacherId());
             report.setTutorId(body.getTutorId());
@@ -125,8 +166,36 @@ public  class ReportService {
     }
 
     @Transactional
-    public Iterable<ReportEntity> getAll(){
-        return reportRepository.findAll();
+    public Iterable<ReportEntity> getAllByUserId(String token) throws Exception{
+/*
+        Jws<Claims> jws;
+        
+        byte[] secret = "randomKeyForHS512Algorithm123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890".getBytes();
+        try {
+            if(token.startsWith("Bearer ")){
+                token = token.substring(7);
+            }
+
+            jws = Jwts.parserBuilder()
+                    .setSigningKey(secret)
+                    .build()
+                    .parseClaimsJws(token);
+
+            Integer userId = Integer.parseInt(jws.getBody().getSubject());
+        } catch (ExpiredJwtException e) {
+            throw new Exception(e);
+        } catch (UnsupportedJwtException | MalformedJwtException e) {
+            throw new Exception(e);
+        } catch (JwtException e) {
+            throw new Exception(e);
+        } catch (IllegalArgumentException e) {
+            throw new Exception(e);
+        }
+*/
+
+        Integer userId = getUserIdFromToken(token);
+
+        return reportRepository.findByStudentIdOrTeacherIdOrTutorId(userId, userId, userId);
     }
 
     @Transactional

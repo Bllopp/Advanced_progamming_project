@@ -74,7 +74,7 @@ public class MainController {
     public @ResponseBody String submitReport (@RequestHeader("Authorization") String token, @ModelAttribute SubmitBody body) throws Exception{
         Jws<Claims> jws = checkToken(token);
 
-       return reportService.submit(body);
+       return reportService.submit(token, body);
 
     }
 
@@ -145,6 +145,7 @@ public class MainController {
         return "Saved";
     }*/
 
+    @CrossOrigin("http://localhost:3000")
     @Operation(summary = "Get all reports", description = "Get a list of all reports")
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema()) }),
@@ -153,7 +154,8 @@ public class MainController {
     @GetMapping("/all")
     public @ResponseBody Iterable<ReportEntity> getAllReports(@RequestHeader("Authorization") String token) throws Exception {
         Jws<Claims> jws = checkToken(token);
-        return reportService.getAll();
+        //Integer userId = (Integer) jws.getBody().get("userId");
+        return reportService.getAllByUserId(token);
 //        return reportRepository.findAll();
     }
 }

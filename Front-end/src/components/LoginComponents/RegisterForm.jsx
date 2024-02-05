@@ -1,15 +1,48 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import {urlAuthenticationService} from "../../constant/constant";
+import axios from "axios";
 
-export const RegisterForm = () => {
+export const RegisterForm = ({setLogIn}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
 
-    const handleRegister = () => {
-        // Logic to handle registration with username, password, email, and role
-        console.log('Registering with:', { username, password, email, role });
+    const handleRegister = async () => {
+
+        const user = {
+            username: username,
+            password: password,
+            email: email,
+            role: role
+        }
+
+        await fetch(`${urlAuthenticationService}/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user)
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    setUsername('');
+                    setPassword('');
+                    setEmail('');
+                    setRole('');
+                    response.json().then(data => {
+                        console.log(data);
+                    });
+                    setLogIn();
+                    console.log('Registration successful!');
+                } else {
+                    console.error('Registration failed!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     };
 
     return (

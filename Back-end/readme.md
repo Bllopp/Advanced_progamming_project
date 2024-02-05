@@ -22,7 +22,7 @@ its architecture wisely.
 >
 >All the Id's field respresent userID in the user database.
 >
->Variable `mode` represent the type of presentation, either `remote` or `in_person`.
+>Variable `mode` represent the type of presentation, either `visio`, `company` or `school`.
 >
 >Dates sent should be in the **yyyy-MM-dd** format to be then translate as MySQL date fields.
 >
@@ -34,8 +34,11 @@ its architecture wisely.
 >      "teacherId" : 73,
 >      "tutorId" : 912,
 >      "date1" : "2024-03-14",
+>      "mode1" : "visio",
 >      "date2" : "2024-03-19",
->      "date3" : "2024-03-04"
+>      "mode2" : "school",
+>      "date3" : "2024-03-04",
+>       "mode3" : "company"
 >?    }
 >    ```
 >

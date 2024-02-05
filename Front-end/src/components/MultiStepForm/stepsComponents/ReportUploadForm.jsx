@@ -1,12 +1,35 @@
 import clsx from "clsx";
 import { CustomFileInput } from "@components/CustomFileInput";
 import { useState } from "react";
+import axios from "axios";
+import {urlReportService} from "../../../constant/constant";
+import {useSelector} from "react-redux";
 
 export const ReportUploadForm = ({report}) => {
+  const token = useSelector((state) => state.auth.token)
+
   const [file, setFile] = useState(report);
-  const uploadFile = (file) => {
-    setFile(file);
-    console.log(file)
+  //const uploadFile = (file) => {
+
+   // console.log(file)
+  //}setFile(file);
+
+  const uploadFile = async (file) => {
+    try {
+      const  formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axios.post(`${urlReportService}/reports/submit`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `${token}`,
+        },
+      });
+      setFile(file);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error uploading file: ', error);
+    }
   }
 
   return (

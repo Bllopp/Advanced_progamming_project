@@ -34,6 +34,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             FilterChain chain
     ) throws ServletException, IOException {
         String path = request.getRequestURI();
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000"); // Replace with your origin
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
 
         if (!path.equals(UrlConstants.REGISTER_URL) && !path.equals(UrlConstants.LOGIN_URL)){
             String jwtToken = extractJwtFromRequest(request);

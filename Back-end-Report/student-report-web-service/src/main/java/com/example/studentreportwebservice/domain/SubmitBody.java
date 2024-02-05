@@ -5,8 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class SubmitBody {
 
-    @JsonProperty("studentId")
-    private Integer studentId;
+    //@JsonProperty("studentId")
+    //private Integer studentId;
 
     @JsonProperty("file")
     private MultipartFile file;
@@ -17,13 +17,13 @@ public class SubmitBody {
     @JsonProperty("tutorId")
     private Integer tutorId;
 
-    public Integer getStudentId() {
-        return studentId;
-    }
+    //public Integer getStudentId() {
+    //    return studentId;
+    //}
 
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
-    }
+    //public void setStudentId(Integer studentId) {
+    //    this.studentId = studentId;
+    //}
 
     public MultipartFile getFile() {
         return file;

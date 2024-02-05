@@ -8,8 +8,14 @@ public class PresentationBody {
     @JsonProperty("studentId")
     private Integer studentId;
 
-    @JsonProperty("mode")
-    private String mode;
+    @JsonProperty("mode1")
+    private String mode1;
+
+    @JsonProperty("mode2")
+    private String mode2;
+
+    @JsonProperty("mode3")
+    private String mode3;
 
     @JsonProperty("teacherId")
     private Integer teacherId;
@@ -34,12 +40,28 @@ public class PresentationBody {
         this.studentId = studentId;
     }
 
-    public String getMode() {
-        return mode;
+    public String getMode1() {
+        return mode1;
     }
 
-    public void setMode(String mode) {
-        this.mode = mode;
+    public void setMode1(String mode1) {
+        this.mode1 = mode1;
+    }
+
+    public String getMode2() {
+        return mode2;
+    }
+
+    public void setMode2(String mode2) {
+        this.mode2 = mode2;
+    }
+
+    public String getMode3() {
+        return mode3;
+    }
+
+    public void setMode3(String mode3) {
+        this.mode3 = mode3;
     }
 
     public Integer getTeacherId() {
