@@ -11,6 +11,10 @@ public class PresentationDatesEntity implements Serializable {
     @EmbeddedId
     private PresentationDatesId dateId;
 
+    @Basic
+    @Column(length=30, nullable=false, name = "mode")
+    private String mode;
+
     @Column(name = "teacherVote")
     private Integer teacherVote;
 
@@ -39,5 +43,13 @@ public class PresentationDatesEntity implements Serializable {
 
     public void setTutorVote(Integer tutotVote) {
         this.tutorVote = tutotVote;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }

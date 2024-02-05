@@ -15,9 +15,6 @@ public class PresentationEntity {
     @Column(name = "studentId")
     private int studentId;
 
-    @Basic
-    @Column(length=30, nullable=false, name = "mode")
-    private String mode;
 
     @Column(name = "teacherId")
     private int teacherId;
@@ -43,14 +40,6 @@ public class PresentationEntity {
 
     public void setStudentId(Integer studentId) {
         this.studentId = studentId;
-    }
-
-    public String getMode() {
-        return mode;
-    }
-
-    public void setMode(String mode) {
-        this.mode = mode;
     }
 
     public Integer getTeacherId() {
@@ -82,7 +71,6 @@ public class PresentationEntity {
         return "PresentationEntity{" +
                 "presId=" + presId +
                 ", studentId=" + studentId +
-                ", mode='" + mode + '\'' +
                 ", teacherId=" + teacherId +
                 ", tutorId=" + tutorId +
                 ", finalDate=" + finalDate +

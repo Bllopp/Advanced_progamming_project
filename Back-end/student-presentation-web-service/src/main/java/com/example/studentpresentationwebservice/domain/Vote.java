@@ -10,6 +10,9 @@ public class Vote {
     @JsonProperty("vote")
     private Integer vote;
 
+    @JsonProperty("mode")
+    private String mode;
+
     public String getDate() {
         return date;
     }
@@ -24,5 +27,13 @@ public class Vote {
 
     public void setVote(Integer vote) {
         this.vote = vote;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }
