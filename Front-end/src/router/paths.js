@@ -1,5 +1,5 @@
 import { Home, About, GenerateADateForm, ErrorPage } from "@pages";
-import { HOME, ABOUT_US, GENERATE_A_DATE } from "./routes";
+import {HOME, ABOUT_US, GENERATE_A_DATE, TUTOR_VALIDATION, DATE_SELECTION} from "./routes";
 import { Root } from "@pages";
 
 export const PATHS = [
@@ -9,11 +9,11 @@ export const PATHS = [
     errorElement: <ErrorPage error={"404"} />,
     children: [
       {
-        ...HOME,
+        ...TUTOR_VALIDATION,
         element: <Home />,
       },
       {
-        ...ABOUT_US,
+        ...DATE_SELECTION,
         element: <About />,
       },
       {

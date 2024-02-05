@@ -1,12 +1,12 @@
-export const HOME = {
-  label: "Home",
+export const TUTOR_VALIDATION = {
+  label: "Tutor Report Validation",
   path: "/",
 };
-export const ABOUT_US = {
-  label: "About us",
-  path: "/about-us",
+export const DATE_SELECTION = {
+  label: "Date Selection",
+  path: "/date-selection",
 };
 export const GENERATE_A_DATE = {
-  label: "Suggest a date",
+  label: "Report Submit",
   path: "/generate-a-date-form",
 };
