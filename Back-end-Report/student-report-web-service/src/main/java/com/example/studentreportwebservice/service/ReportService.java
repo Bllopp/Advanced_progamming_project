@@ -36,6 +36,7 @@ public  class ReportService {
 
     private Integer getUserIdFromToken(String token) throws Exception {
         Jws<Claims> jws;
+        Integer userId;
 
         byte[] secret = "randomKeyForHS512Algorithm123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890".getBytes();
         try {
@@ -48,7 +49,7 @@ public  class ReportService {
                     .build()
                     .parseClaimsJws(token);
 
-            Integer userId = Integer.parseInt(jws.getBody().getSubject());
+            userId = Integer.parseInt(jws.getBody().getSubject());
         } catch (ExpiredJwtException e) {
             throw new Exception(e);
         } catch (UnsupportedJwtException | MalformedJwtException e) {
