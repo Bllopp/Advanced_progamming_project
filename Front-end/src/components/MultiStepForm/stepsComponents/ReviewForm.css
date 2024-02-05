@@ -1,0 +1,70 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inner-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px;
+    border: 2px solid #468CCC;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.box {
+    padding: 10px;
+    margin: 0;
+}
+
+.title {
+    background-color: #EBEBEB;
+    color: #468CCC;
+    font-size: 30px;
+}
+
+select {
+    margin-left: 5px;
+}
+
+.submit-button {
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    background-color: #468CCC;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+label {
+    margin: 5px;
+}
+
+.table {
+    width: 560px;
+    margin: 20px;
+}
+
+th, td {
+    border: 1px solid #468CCC;
+    padding: 8px;
+    text-align: left;
+}
+
+.validate-button, .invalidate-button {
+    margin-right: 5px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.validate-button {
+    background-color: #00cc00;
+    color: white;
+}
+
+.invalidate-button {
+    background-color: #cc0000;
+    color: white;
+}
