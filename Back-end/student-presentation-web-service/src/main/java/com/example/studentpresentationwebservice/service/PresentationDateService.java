@@ -24,7 +24,7 @@ public class PresentationDateService {
     private PresentationDatesRepository presentationDatesRepository;
 
     @Transactional
-    public @ResponseBody PresentationDatesEntity save(Integer presId, String date, Integer teacherVote, Integer tutorVote){
+    public @ResponseBody PresentationDatesEntity save(Integer presId,String mode, String date, Integer teacherVote, Integer tutorVote){
         PresentationDatesEntity pde = new PresentationDatesEntity();
 
 
@@ -37,6 +37,7 @@ public class PresentationDateService {
         }
         pde.setTeacherVote(teacherVote);
         pde.setTutorVote(tutorVote);
+        pde.setMode(mode);
         return presentationDatesRepository.save(pde);
     }
 
@@ -66,7 +67,7 @@ public class PresentationDateService {
     @Transactional
     public @ResponseBody String create3Vote(VoteBody body, Integer presId){
         for (int i = 0; i < body.getVotes().size(); i++) {
-            save(presId, body.getVotes().get(i).getDate(), 0, 0);
+            save(presId,body.getVotes().get(i).getMode(), body.getVotes().get(i).getDate(), 0, 0);
         }
 
         return "3 new dates have been proposed";

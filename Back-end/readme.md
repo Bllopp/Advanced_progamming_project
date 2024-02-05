@@ -77,7 +77,6 @@ its architecture wisely.
 >   {
 >     "presId" : 52,
 >     "studentId" : 242,
->     "mode" : "in_person",
 >     "teacherId" : 1235,
 >     "tutorId" : 23,
 >     "finaleDate" : null
@@ -85,7 +84,6 @@ its architecture wisely.
 >   {
 >     "presId" : 236,
 >     "studentId" : 242,
->     "mode" : "remote",
 >     "teacherId" : 124,
 >     "tutorId" : 233,
 >     "finaleDate" : "2025-06-23"
@@ -124,20 +122,23 @@ its architecture wisely.
 > ```json
 > [
 >   {
->     "presId" : 52,
 >     "date" : "2024-03-14",
+>     "mode" : "visio",
+>     "presId" : 52,
 >     "teacherVote" : 0,
 >     "tutorVote" : -1
 >   },
 >   {
->     "presId" : 52,
 >     "date" : "2024-03-19",
+>     "mode" : "atSchool",
+>     "presId" : 52,
 >     "teacherVote" : 1,
 >     "tutorVote" : 0
 >   },
 >   {
->     "presId" : 52,
 >     "date" : "2024-03-04",
+>     "mode" : "atCompany",
+>     "presId" : 52,
 >     "teacherVote" : -1,
 >     "tutorVote" : -1
 >   }
@@ -176,6 +177,7 @@ its architecture wisely.
 > {
 >   "presId" : 52,
 >   "date" : "2024-03-14",
+>   "mode" : "visio",
 >   "teacherVote" : 0,
 >   "tutorVote" : -1
 > }
@@ -202,19 +204,22 @@ its architecture wisely.
 >
 > ```json
 > {
->   "user" : 142,
->   "mode": "remote",
+>   "user" : 1245,
+>   "role" : "student",
 >   "vote": [
 >     {
 >       "date" : "2024-03-24",
+>       "mode" : "visio",
 >       "vote" : 0 
 >     },
 >     {
 >       "date" : "2024-04-08",
+>       "mode" : "visio",
 >       "vote" : 0
 >     },
 >     {
 >       "date" : "2024-04-30",
+>       "mode" : "visio",
 >       "vote" : 0
 >     }
 >   ]
@@ -249,20 +254,23 @@ its architecture wisely.
 >
 > ```json
 > {
->   "user" : 142,
->   "mode": "remote",
+>   "user" : 436,
+>   "role": "teacher",
 >   "vote": [
 >     {
 >       "date" : "2024-03-24",
->       "vote" : 0 
+>       "mode" : "visio",
+>       "vote" : 1 
 >     },
 >     {
 >       "date" : "2024-04-08",
->       "vote" : 0
+>       "mode" : "visio",
+>       "vote" : -1
 >     },
 >     {
 >       "date" : "2024-04-30",
->       "vote" : 0
+>       "mode" : "visio",
+>       "vote" : -1
 >     }
 >   ]
 > }

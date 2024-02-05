@@ -88,9 +88,9 @@ public class PresentationController {
             PresentationEntity pE = presentationService.createPresentation(presBody);
             Integer presId = pE.getPresId();
 
-            presentationDateService.save(presId, presBody.getDate1(), 0, 0);
-            presentationDateService.save(presId, presBody.getDate2(), 0, 0);
-            presentationDateService.save(presId, presBody.getDate3(), 0, 0);
+            presentationDateService.save(presId, presBody.getMode(), presBody.getDate1(), 0, 0);
+            presentationDateService.save(presId, presBody.getMode(), presBody.getDate2(), 0, 0);
+            presentationDateService.save(presId, presBody.getMode(), presBody.getDate3(), 0, 0);
 
 
 
