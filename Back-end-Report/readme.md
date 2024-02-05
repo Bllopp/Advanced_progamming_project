@@ -65,7 +65,7 @@ its architecture wisely.
 
 
 > <details>
-> <summary> POST /reports/validate/{studentId} </summary>
+> <summary> POST /reports/validation-status/{studentId} </summary>
 >
 > ### Purpose
 >
@@ -85,7 +85,7 @@ its architecture wisely.
 >
 > *Example :*
 >
-> `POST report/validate/643`
+> `GET report/validation-status/643`
 >
 >
 > </details>
